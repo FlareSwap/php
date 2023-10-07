@@ -27,22 +27,22 @@
 			return false;
 			
 		// set character set
-		@mysql_query( "SET character_set_results=utf8", $dblink );
+		@mysqli_query($dblink,  "SET character_set_results=utf8");
 		mb_language( "uni" );
 		mb_internal_encoding( "UTF-8" );				
 
 		// select db
-		$select_db = @mysql_select_db($dbName, $dblink);
+		$select_db = @mysqli_select_db($dblink, $dbName);
 		if( false == $select_db ) 
 		{
-			@mysql_close($dblink);
+			@mysqli_close($dblink);
 			return false;
 		}
 		
 		// set character set
-		@mysql_query( "set names 'utf8'", $dblink );
-		@mysql_query( "SET character_set_client=utf8", $dblink );
-		@mysql_query( "SET character_set_connection=utf8", $dblink );	
+		@mysqli_query($dblink,  "set names 'utf8'");
+		@mysqli_query($dblink,  "SET character_set_client=utf8");
+		@mysqli_query($dblink,  "SET character_set_connection=utf8");	
 		
 		return $dblink;
 	}
@@ -62,10 +62,10 @@
 		else
 			$query  = "SELECT `lastQuery` FROM `feeds` WHERE `name`='" . $name . "' AND `countryID` IS NULL";
 			
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -94,10 +94,10 @@
 		
 		$query = "SELECT * FROM `matchstatus` WHERE `leagueID`='" . $leagueId . "' AND `matchID`='" . $matchId . "'";
 		
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query match status from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query match status from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -121,10 +121,10 @@
 		
 		$query = "SELECT * FROM `oddstatus` WHERE `leagueID`='" . $leagueId . "' AND `matchID`='" . $matchId . "'";
 		
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query odd status from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query odd status from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -146,12 +146,12 @@
 	{
 		global $db;
 		
-		$query = "SELECT * FROM `oddstatus2` WHERE `leagueID`='" . $leagueId . "' AND `matchID`='" . $matchId . "' AND `bookerName`='" . mysql_real_escape_string( $bookerName ) . "'";
+		$query = "SELECT * FROM `oddstatus2` WHERE `leagueID`='" . $leagueId . "' AND `matchID`='" . $matchId . "' AND `bookerName`='" . mysqli_real_escape_string($mysqli_link,  $bookerName ) . "'";
 		
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query odd status (2) from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query odd status (2) from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -175,10 +175,10 @@
 		
 		$query = "SELECT * FROM `feeds` WHERE `name`='" . $name . "'";
 		
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -193,10 +193,10 @@
 		
 		$query = "SELECT *, DATE_FORMAT(`lastUpdate`, '%Y-%m-%d') AS `curDay` FROM `feeds` WHERE `name`='" . $name . "' AND DATE_FORMAT(`lastUpdate`, '%Y-%m-%d')<>'" . $date . "'";
 		
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -219,10 +219,10 @@
 		
 		// verify if match exists
 		$query = "SELECT * FROM `matchstatus` WHERE `leagueID`='" . $leagueId . "' AND `matchID`='" . $matchId . "'";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query match status from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query match status from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -242,29 +242,29 @@
 			// insert RSS feed
 			$query  = "INSERT INTO `matchstatus` (`leagueID`, `leagueName`, `matchID`, `team1`, `team2`, `date`, `time`, `ro_date`, `ro_time`, `status`, `score1`, `score2`, `scoreHT`, `goals1`, `cards1`, `goals2`, `cards2`, `match_time`, `lastUpdate`) VALUES('" . 
 						$leagueId . "', '" . 
-						mysql_real_escape_string( $leagueName ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', '" . 
 						$matchId . "', '" . 
-						mysql_real_escape_string( $team1 ) . "', '" . 
-						mysql_real_escape_string( $team2 ) . "', '" . 
-						mysql_real_escape_string( $matchDate ) . "', '" . 
-						mysql_real_escape_string( $time ) . "', '" . 
-						mysql_real_escape_string( $roDate ) . "', '" . 
-						mysql_real_escape_string( $roTime ) . "', '" . 						
-						mysql_real_escape_string( $matchStatus ) . "', '" . 
-						mysql_real_escape_string( $score1 ) . "', '" . 
-						mysql_real_escape_string( $score2 ) . "', '" . 
-						mysql_real_escape_string( $scoreHT ) . "', '" . 
-						mysql_real_escape_string( $goals1 ) . "', '" . 
-						mysql_real_escape_string( $cards1 ) . "', '" . 
-						mysql_real_escape_string( $goals2 ) . "', '" . 
-						mysql_real_escape_string( $cards2 ) . "', '" . 
-						mysql_real_escape_string( $matchTime ) . "', '" . 						
+						mysqli_real_escape_string($mysqli_link,  $team1 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $team2 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $matchDate ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $time ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $roDate ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $roTime ) . "', '" . 						
+						mysqli_real_escape_string($mysqli_link,  $matchStatus ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $score1 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $score2 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $scoreHT ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $goals1 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $cards1 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $goals2 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $cards2 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $matchTime ) . "', '" . 						
 						$date . "')";
 			
-			$result = @mysql_query( $query, $db );
+			$result = @mysqli_query($db,  $query);
 			if( false == $result )
 			{
-				logError( "Failed to insert match status " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+				logError( "Failed to insert match status " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 				return false;
 			}			
 		}
@@ -274,26 +274,26 @@
 			mysqli_free_result( $result );
 			
 			// update RSS feed
-			$query  = "UPDATE `matchstatus` SET `date`='" . mysql_real_escape_string( $matchDate ) . 
-					  "', `time`='" . mysql_real_escape_string( $time ) . 
-					  "', `ro_date`='" . mysql_real_escape_string( $roDate ) . 
-					  "', `ro_time`='" . mysql_real_escape_string( $roTime ) . 					  
-					  "', `status`='" . mysql_real_escape_string( $matchStatus ) . 
-					  "', `score1`='" . mysql_real_escape_string( $score1 ) . 
-					  "', `score2`='" . mysql_real_escape_string( $score2 ) . 
-					  "', `scoreHT`='" . mysql_real_escape_string( $scoreHT ) . 
-					  "', `goals1`='" . mysql_real_escape_string( $goals1 ) . 
-					  "', `cards1`='" . mysql_real_escape_string( $cards1 ) . 
-					  "', `goals2`='" . mysql_real_escape_string( $goals2 ) . 
-					  "', `cards2`='" . mysql_real_escape_string( $cards2 ) . 		
-					  "', `match_time`='" . mysql_real_escape_string( $matchTime ) . 						  
+			$query  = "UPDATE `matchstatus` SET `date`='" . mysqli_real_escape_string($mysqli_link,  $matchDate ) . 
+					  "', `time`='" . mysqli_real_escape_string($mysqli_link,  $time ) . 
+					  "', `ro_date`='" . mysqli_real_escape_string($mysqli_link,  $roDate ) . 
+					  "', `ro_time`='" . mysqli_real_escape_string($mysqli_link,  $roTime ) . 					  
+					  "', `status`='" . mysqli_real_escape_string($mysqli_link,  $matchStatus ) . 
+					  "', `score1`='" . mysqli_real_escape_string($mysqli_link,  $score1 ) . 
+					  "', `score2`='" . mysqli_real_escape_string($mysqli_link,  $score2 ) . 
+					  "', `scoreHT`='" . mysqli_real_escape_string($mysqli_link,  $scoreHT ) . 
+					  "', `goals1`='" . mysqli_real_escape_string($mysqli_link,  $goals1 ) . 
+					  "', `cards1`='" . mysqli_real_escape_string($mysqli_link,  $cards1 ) . 
+					  "', `goals2`='" . mysqli_real_escape_string($mysqli_link,  $goals2 ) . 
+					  "', `cards2`='" . mysqli_real_escape_string($mysqli_link,  $cards2 ) . 		
+					  "', `match_time`='" . mysqli_real_escape_string($mysqli_link,  $matchTime ) . 						  
 					  "', `lastUpdate`='" . $date . "' ".
 					  "WHERE `id`=" . $row["id"];
 					  
-			$result = @mysql_query( $query, $db );
+			$result = @mysqli_query($db,  $query);
 			if( false == $result )
 			{
-				logError( "Failed to update match status " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+				logError( "Failed to update match status " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 				return false;
 			}
 		}
@@ -310,10 +310,10 @@
 		
 		// verify if odd exists
 		$query = "SELECT * FROM `oddstatus` WHERE `leagueID`='" . $leagueId . "' AND `matchID`='" . $matchId . "'";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query odd status from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query odd status from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -333,27 +333,27 @@
 			// insert RSS feed
 			$query  = "INSERT INTO `oddstatus` (`leagueID`, `leagueName`, `matchID`, `bookerName`, `team1`, `team2`, `date`, `time`, `ro_date`, `ro_time`, `odds1`, `odds2`, `oddsX`, `lastUpdate`) VALUES('" . 
 						$leagueId . "', '" . 
-						mysql_real_escape_string( $leagueName ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', '" . 
 						$matchId . "', '" . 
-						mysql_real_escape_string( $bookerName ) . "', '" . 						
-						mysql_real_escape_string( $team1 ) . "', '" . 
-						mysql_real_escape_string( $team2 ) . "', '" . 
-						mysql_real_escape_string( $matchDate ) . "', '" . 
-						mysql_real_escape_string( $time ) . "', '" . 
-						mysql_real_escape_string( $roDate ) . "', '" . 
-						mysql_real_escape_string( $roTime ) . "', '" . 							
-						mysql_real_escape_string( $odds1 ) . "', '" . 
-						mysql_real_escape_string( $odds2 ) . "', '" . 
-						mysql_real_escape_string( $oddsX ) . "', '" .
+						mysqli_real_escape_string($mysqli_link,  $bookerName ) . "', '" . 						
+						mysqli_real_escape_string($mysqli_link,  $team1 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $team2 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $matchDate ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $time ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $roDate ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $roTime ) . "', '" . 							
+						mysqli_real_escape_string($mysqli_link,  $odds1 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $odds2 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $oddsX ) . "', '" .
 						$date . "')";
 			
 			if( $debugEnabled )
 				echo $query . "\n";
 			
-			$result = @mysql_query( $query, $db );
+			$result = @mysqli_query($db,  $query);
 			if( false == $result )
 			{
-				logError( "Failed to insert odd status " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+				logError( "Failed to insert odd status " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 				return false;
 			}			
 		}
@@ -363,30 +363,30 @@
 			mysqli_free_result( $result );
 			
 			// update RSS feed
-			$query  = "UPDATE `oddstatus` SET `date`='" . mysql_real_escape_string( $matchDate ) . 
-					  "', `time`='" . mysql_real_escape_string( $time ) . 		
-					  "', `ro_date`='" . mysql_real_escape_string( $roDate ) . 
-					  "', `ro_time`='" . mysql_real_escape_string( $roTime ) . 					  
-					  "', `bookerName`='" . mysql_real_escape_string( $bookerName ) . 
-					  "', `odds1Latest`='" . mysql_real_escape_string( $odds1 ) . 
-					  "', `oddsXLatest`='" . mysql_real_escape_string( $oddsX ) . 
-					  "', `odds2Latest`='" . mysql_real_escape_string( $odds2 ) . 
-					  "', `high1`='" . mysql_real_escape_string( $high1 ) . 
-					  "', `high2`='" . mysql_real_escape_string( $high2 ) . 
-					  "', `highX`='" . mysql_real_escape_string( $highX ) . 
-					  "', `dir1`='" . mysql_real_escape_string( $dir1 ) . 
-					  "', `dir2`='" . mysql_real_escape_string( $dir2 ) . 	
-					  "', `dirX`='" . mysql_real_escape_string( $dirX ) . 						  
+			$query  = "UPDATE `oddstatus` SET `date`='" . mysqli_real_escape_string($mysqli_link,  $matchDate ) . 
+					  "', `time`='" . mysqli_real_escape_string($mysqli_link,  $time ) . 		
+					  "', `ro_date`='" . mysqli_real_escape_string($mysqli_link,  $roDate ) . 
+					  "', `ro_time`='" . mysqli_real_escape_string($mysqli_link,  $roTime ) . 					  
+					  "', `bookerName`='" . mysqli_real_escape_string($mysqli_link,  $bookerName ) . 
+					  "', `odds1Latest`='" . mysqli_real_escape_string($mysqli_link,  $odds1 ) . 
+					  "', `oddsXLatest`='" . mysqli_real_escape_string($mysqli_link,  $oddsX ) . 
+					  "', `odds2Latest`='" . mysqli_real_escape_string($mysqli_link,  $odds2 ) . 
+					  "', `high1`='" . mysqli_real_escape_string($mysqli_link,  $high1 ) . 
+					  "', `high2`='" . mysqli_real_escape_string($mysqli_link,  $high2 ) . 
+					  "', `highX`='" . mysqli_real_escape_string($mysqli_link,  $highX ) . 
+					  "', `dir1`='" . mysqli_real_escape_string($mysqli_link,  $dir1 ) . 
+					  "', `dir2`='" . mysqli_real_escape_string($mysqli_link,  $dir2 ) . 	
+					  "', `dirX`='" . mysqli_real_escape_string($mysqli_link,  $dirX ) . 						  
 					  "', `lastUpdate`='" . $date . "' ".
 					  "WHERE `id`=" . $row["id"];
 			
 			if( $debugEnabled )
 				echo $query . "\n";
 			
-			$result = @mysql_query( $query, $db );
+			$result = @mysqli_query($db,  $query);
 			if( false == $result )
 			{
-				logError( "Failed to update odd status " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+				logError( "Failed to update odd status " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 				return false;
 			}
 		}
@@ -403,10 +403,10 @@
 		
 		// verify if odd exists
 		$query = "SELECT * FROM `oddstatus2` WHERE `leagueID`='" . $leagueId . "' AND `matchID`='" . $matchId . "' AND `bookerName`='" . $bookerName . "'";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query odd status (2) from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query odd status (2) from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -426,27 +426,27 @@
 			// insert RSS feed
 			$query  = "INSERT INTO `oddstatus2` (`leagueID`, `leagueName`, `matchID`, `bookerName`, `team1`, `team2`, `date`, `time`, `ro_date`, `ro_time`, `odds1`, `odds2`, `oddsX`, `lastUpdate`) VALUES('" . 
 						$leagueId . "', '" . 
-						mysql_real_escape_string( $leagueName ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', '" . 
 						$matchId . "', '" . 
-						mysql_real_escape_string( $bookerName ) . "', '" . 						
-						mysql_real_escape_string( $team1 ) . "', '" . 
-						mysql_real_escape_string( $team2 ) . "', '" . 
-						mysql_real_escape_string( $matchDate ) . "', '" . 
-						mysql_real_escape_string( $time ) . "', '" . 
-						mysql_real_escape_string( $roDate ) . "', '" . 
-						mysql_real_escape_string( $roTime ) . "', '" . 						
-						mysql_real_escape_string( $odds1 ) . "', '" . 
-						mysql_real_escape_string( $odds2 ) . "', '" . 
-						mysql_real_escape_string( $oddsX ) . "', '" .
+						mysqli_real_escape_string($mysqli_link,  $bookerName ) . "', '" . 						
+						mysqli_real_escape_string($mysqli_link,  $team1 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $team2 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $matchDate ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $time ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $roDate ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $roTime ) . "', '" . 						
+						mysqli_real_escape_string($mysqli_link,  $odds1 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $odds2 ) . "', '" . 
+						mysqli_real_escape_string($mysqli_link,  $oddsX ) . "', '" .
 						$date . "')";
 			
 			if( $debugEnabled )
 				echo $query . "\n";
 			
-			$result = @mysql_query( $query, $db );
+			$result = @mysqli_query($db,  $query);
 			if( false == $result )
 			{
-				logError( "Failed to insert odd status (2) " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+				logError( "Failed to insert odd status (2) " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 				return false;
 			}			
 		}
@@ -456,29 +456,29 @@
 			mysqli_free_result( $result );
 			
 			// update RSS feed
-			$query  = "UPDATE `oddstatus2` SET `date`='" . mysql_real_escape_string( $matchDate ) . 
-					  "', `time`='" . mysql_real_escape_string( $time ) . 
-					  "', `ro_date`='" . mysql_real_escape_string( $roDate ) . 
-					  "', `ro_time`='" . mysql_real_escape_string( $roTime ) . 						  
-					  "', `odds1Latest`='" . mysql_real_escape_string( $odds1 ) . 
-					  "', `oddsXLatest`='" . mysql_real_escape_string( $oddsX ) . 
-					  "', `odds2Latest`='" . mysql_real_escape_string( $odds2 ) . 
-					  "', `high1`='" . mysql_real_escape_string( $high1 ) . 
-					  "', `high2`='" . mysql_real_escape_string( $high2 ) . 
-					  "', `highX`='" . mysql_real_escape_string( $highX ) . 
-					  "', `dir1`='" . mysql_real_escape_string( $dir1 ) . 
-					  "', `dir2`='" . mysql_real_escape_string( $dir2 ) . 	
-					  "', `dirX`='" . mysql_real_escape_string( $dirX ) . 						  
+			$query  = "UPDATE `oddstatus2` SET `date`='" . mysqli_real_escape_string($mysqli_link,  $matchDate ) . 
+					  "', `time`='" . mysqli_real_escape_string($mysqli_link,  $time ) . 
+					  "', `ro_date`='" . mysqli_real_escape_string($mysqli_link,  $roDate ) . 
+					  "', `ro_time`='" . mysqli_real_escape_string($mysqli_link,  $roTime ) . 						  
+					  "', `odds1Latest`='" . mysqli_real_escape_string($mysqli_link,  $odds1 ) . 
+					  "', `oddsXLatest`='" . mysqli_real_escape_string($mysqli_link,  $oddsX ) . 
+					  "', `odds2Latest`='" . mysqli_real_escape_string($mysqli_link,  $odds2 ) . 
+					  "', `high1`='" . mysqli_real_escape_string($mysqli_link,  $high1 ) . 
+					  "', `high2`='" . mysqli_real_escape_string($mysqli_link,  $high2 ) . 
+					  "', `highX`='" . mysqli_real_escape_string($mysqli_link,  $highX ) . 
+					  "', `dir1`='" . mysqli_real_escape_string($mysqli_link,  $dir1 ) . 
+					  "', `dir2`='" . mysqli_real_escape_string($mysqli_link,  $dir2 ) . 	
+					  "', `dirX`='" . mysqli_real_escape_string($mysqli_link,  $dirX ) . 						  
 					  "', `lastUpdate`='" . $date . "' ".
 					  "WHERE `id`=" . $row["id"];
 			
 			if( $debugEnabled )
 				echo $query . "\n";
 			
-			$result = @mysql_query( $query, $db );
+			$result = @mysqli_query($db,  $query);
 			if( false == $result )
 			{
-				logError( "Failed to update odd status (2) " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+				logError( "Failed to update odd status (2) " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 				return false;
 			}
 		}
@@ -494,10 +494,10 @@
 		
 		// verify if league exists
 		$query = "SELECT * FROM `leagues` WHERE `feed_id`=" . $leagueId;
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -509,11 +509,11 @@
 			mysqli_free_result( $result );
 			
 			// insert RSS feed
-			$query  = "INSERT INTO `leagues` (`countryID`, `name`, `is_cup`, `feed_id`, `feed_sub_id`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysql_real_escape_string( $leagueName ) . "', " . $leagueCup . ", '" . mysql_real_escape_string( $leagueId ) . "', '" . mysql_real_escape_string( $leagueSubId ) . "', '" . $date . "')";
-			$result = @mysql_query( $query, $db );
+			$query  = "INSERT INTO `leagues` (`countryID`, `name`, `is_cup`, `feed_id`, `feed_sub_id`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', " . $leagueCup . ", '" . mysqli_real_escape_string($mysqli_link,  $leagueId ) . "', '" . mysqli_real_escape_string($mysqli_link,  $leagueSubId ) . "', '" . $date . "')";
+			$result = @mysqli_query($db,  $query);
 			if( false == $result )
 			{
-				logError( "Failed to insert league " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+				logError( "Failed to insert league " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 				return false;
 			}			
 		}
@@ -525,11 +525,11 @@
 			// name
 			if( $nameIdx == 1 && strtolower( $row["name"] ) != strtolower( $leagueName ) )
 			{
-				$query  = "UPDATE `leagues` SET `name`='" . mysql_real_escape_string( $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
-				$result = @mysql_query( $query, $db );
+				$query  = "UPDATE `leagues` SET `name`='" . mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
+				$result = @mysqli_query($db,  $query);
 				if( false == $result )
 				{
-					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 					return false;
 				}
 			}
@@ -537,11 +537,11 @@
 			// name2
 			if( $nameIdx == 2 && strtolower( $row["name2"] ) != strtolower( $leagueName ) )
 			{
-				$query  = "UPDATE `leagues` SET `name2`='" . mysql_real_escape_string( $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
-				$result = @mysql_query( $query, $db );
+				$query  = "UPDATE `leagues` SET `name2`='" . mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
+				$result = @mysqli_query($db,  $query);
 				if( false == $result )
 				{
-					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 					return false;
 				}
 			}
@@ -549,11 +549,11 @@
 			// name3
 			if( $nameIdx == 3 && strtolower( $row["name3"] ) != strtolower( $leagueName ) )
 			{
-				$query  = "UPDATE `leagues` SET `name3`='" . mysql_real_escape_string( $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
-				$result = @mysql_query( $query, $db );
+				$query  = "UPDATE `leagues` SET `name3`='" . mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
+				$result = @mysqli_query($db,  $query);
 				if( false == $result )
 				{
-					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 					return false;
 				}
 			}
@@ -561,11 +561,11 @@
 			// name4
 			if( $nameIdx == 4 && strtolower( $row["name4"] ) != strtolower( $leagueName ) )
 			{
-				$query  = "UPDATE `leagues` SET `name4`='" . mysql_real_escape_string( $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
-				$result = @mysql_query( $query, $db );
+				$query  = "UPDATE `leagues` SET `name4`='" . mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
+				$result = @mysqli_query($db,  $query);
 				if( false == $result )
 				{
-					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 					return false;
 				}
 			}
@@ -573,11 +573,11 @@
 			// name5
 			if( $nameIdx == 5 && strtolower( $row["name5"] ) != strtolower( $leagueName ) )
 			{
-				$query  = "UPDATE `leagues` SET `name5`='" . mysql_real_escape_string( $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
-				$result = @mysql_query( $query, $db );
+				$query  = "UPDATE `leagues` SET `name5`='" . mysqli_real_escape_string($mysqli_link,  $leagueName ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
+				$result = @mysqli_query($db,  $query);
 				if( false == $result )
 				{
-					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 					return false;
 				}
 			}
@@ -586,11 +586,11 @@
 			if( intval( $row["is_cup"] ) != intval( $leagueCup ) )
 			{
 				// update RSS feed
-				$query  = "UPDATE `leagues` SET `feed_sub_id`='" . mysql_real_escape_string( $leagueSubId ) . "', `is_cup`='" . mysql_real_escape_string( $leagueCup ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
-				$result = @mysql_query( $query, $db );
+				$query  = "UPDATE `leagues` SET `feed_sub_id`='" . mysqli_real_escape_string($mysqli_link,  $leagueSubId ) . "', `is_cup`='" . mysqli_real_escape_string($mysqli_link,  $leagueCup ) . "', `lastUpdate`='" . $date . "' WHERE `id`=" . $row["id"];
+				$result = @mysqli_query($db,  $query);
 				if( false == $result )
 				{
-					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+					logError( "Failed to update league " . $leagueName . ": " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 					return false;
 				}
 			}
@@ -614,10 +614,10 @@
 		else
 			$query  = "SELECT `id` FROM `feeds` WHERE `name`='" . $name . "' AND `countryID` IS NULL";
 			
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -629,7 +629,7 @@
 			mysqli_free_result( $result );
 			
 			// insert RSS feed
-			$query  = "INSERT INTO `feeds` (`name`, `countryID`, `value`, `tips`, `lastUpdate`, `lastQuery`) VALUES('" . mysql_real_escape_string( $name ) . "', " . $countryID . ", '" . mysql_real_escape_string( $feed ) . ", '" . mysql_real_escape_string( $tips ) . "', '" . $date . "', '" . $date . "')";
+			$query  = "INSERT INTO `feeds` (`name`, `countryID`, `value`, `tips`, `lastUpdate`, `lastQuery`) VALUES('" . mysqli_real_escape_string($mysqli_link,  $name ) . "', " . $countryID . ", '" . mysqli_real_escape_string($mysqli_link,  $feed ) . ", '" . mysqli_real_escape_string($mysqli_link,  $tips ) . "', '" . $date . "', '" . $date . "')";
 		}
 		else
 		{
@@ -637,14 +637,14 @@
 			mysqli_free_result( $result );
 			
 			// update RSS feed
-			$query  = "UPDATE `feeds` SET `value`='" . mysql_real_escape_string( $feed ) . "', `tips`='" . mysql_real_escape_string( $tips ) . "', `lastUpdate`='" . $date . "', `lastQuery`='" . $date . "' WHERE `id`=" . $row["id"];
+			$query  = "UPDATE `feeds` SET `value`='" . mysqli_real_escape_string($mysqli_link,  $feed ) . "', `tips`='" . mysqli_real_escape_string($mysqli_link,  $tips ) . "', `lastUpdate`='" . $date . "', `lastQuery`='" . $date . "' WHERE `id`=" . $row["id"];
 		}
 		
 		// update RSS feed
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to update " . $name . " RSS feed in db - MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to update " . $name . " RSS feed in db - MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -666,10 +666,10 @@
 		else
 			$query  = "SELECT `id` FROM `feeddaily` WHERE `name`='" . $name . "' AND `countryID` IS NULL AND DATE_FORMAT(`lastUpdate`, '%Y-%m-%d')='" . $curDay . "'";
 			
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query feed daily from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query feed daily from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -681,7 +681,7 @@
 			mysqli_free_result( $result );
 			
 			// insert RSS feed
-			$query  = "INSERT INTO `feeddaily` (`name`, `countryID`, `value`, `lastUpdate`, `lastQuery`) VALUES('" . mysql_real_escape_string( $name ) . "', " . $countryID . ", '" . mysql_real_escape_string( $feed ) . "', '" . $curDay . "', '" . $date . "')";
+			$query  = "INSERT INTO `feeddaily` (`name`, `countryID`, `value`, `lastUpdate`, `lastQuery`) VALUES('" . mysqli_real_escape_string($mysqli_link,  $name ) . "', " . $countryID . ", '" . mysqli_real_escape_string($mysqli_link,  $feed ) . "', '" . $curDay . "', '" . $date . "')";
 		}
 		else
 		{
@@ -689,14 +689,14 @@
 			mysqli_free_result( $result );
 			
 			// update RSS feed
-			$query  = "UPDATE `feeddaily` SET `value`='" . mysql_real_escape_string( $feed ) . "', `lastUpdate`='" . $curDay . "', `lastQuery`='" . $date . "' WHERE `id`=" . $row["id"];
+			$query  = "UPDATE `feeddaily` SET `value`='" . mysqli_real_escape_string($mysqli_link,  $feed ) . "', `lastUpdate`='" . $curDay . "', `lastQuery`='" . $date . "' WHERE `id`=" . $row["id"];
 		}
 		
 		// update RSS feed
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to update " . $name . " RSS feed in db - MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to update " . $name . " RSS feed in db - MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -718,10 +718,10 @@
 		else
 			$query  = "SELECT `id` FROM `tipsdaily` WHERE `countryID` IS NULL AND DATE_FORMAT(`lastUpdate`, '%Y-%m-%d')='" . $curDay . "'";
 			
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query tips daily from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query tips daily from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -733,7 +733,7 @@
 			mysqli_free_result( $result );
 			
 			// insert RSS feed
-			$query  = "INSERT INTO `tipsdaily` (`countryID`, `tips`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysql_real_escape_string( $tips ) . "', '" . $curDay . "')";
+			$query  = "INSERT INTO `tipsdaily` (`countryID`, `tips`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysqli_real_escape_string($mysqli_link,  $tips ) . "', '" . $curDay . "')";
 		}
 		else
 		{
@@ -741,14 +741,14 @@
 			mysqli_free_result( $result );
 			
 			// update RSS feed
-			$query  = "UPDATE `tipsdaily` SET `tips`='" . mysql_real_escape_string( $tips ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
+			$query  = "UPDATE `tipsdaily` SET `tips`='" . mysqli_real_escape_string($mysqli_link,  $tips ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
 		}
 		
 		// update RSS feed
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to update tips daily in db - MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to update tips daily in db - MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -770,10 +770,10 @@
 		else
 			$query  = "SELECT `id` FROM `predictionsdaily` WHERE `countryID` IS NULL AND DATE_FORMAT(`lastUpdate`, '%Y-%m-%d')='" . $curDay . "'";
 			
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query predictions daily from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query predictions daily from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -785,7 +785,7 @@
 			mysqli_free_result( $result );
 			
 			// insert RSS feed
-			$query  = "INSERT INTO `predictionsdaily` (`countryID`, `predictions`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysql_real_escape_string( $predictions ) . "', '" . $curDay . "')";
+			$query  = "INSERT INTO `predictionsdaily` (`countryID`, `predictions`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysqli_real_escape_string($mysqli_link,  $predictions ) . "', '" . $curDay . "')";
 		}
 		else
 		{
@@ -793,14 +793,14 @@
 			mysqli_free_result( $result );
 			
 			// update RSS feed
-			$query  = "UPDATE `predictionsdaily` SET `predictions`='" . mysql_real_escape_string( $predictions ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
+			$query  = "UPDATE `predictionsdaily` SET `predictions`='" . mysqli_real_escape_string($mysqli_link,  $predictions ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
 		}
 		
 		// update RSS feed
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to update predictions daily in db - MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to update predictions daily in db - MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -822,10 +822,10 @@
 		else
 			$query  = "SELECT `id` FROM `droppingodds` WHERE `countryID` IS NULL AND DATE_FORMAT(`lastUpdate`, '%Y-%m-%d')='" . $curDay . "'";
 			
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query dropping daily from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query dropping daily from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -837,7 +837,7 @@
 			mysqli_free_result( $result );
 			
 			// insert RSS feed
-			$query  = "INSERT INTO `droppingodds` (`countryID`, `tips`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysql_real_escape_string( $dropping ) . "', '" . $curDay . "')";
+			$query  = "INSERT INTO `droppingodds` (`countryID`, `tips`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysqli_real_escape_string($mysqli_link,  $dropping ) . "', '" . $curDay . "')";
 		}
 		else
 		{
@@ -845,14 +845,14 @@
 			mysqli_free_result( $result );
 			
 			// update RSS feed
-			$query  = "UPDATE `droppingodds` SET `tips`='" . mysql_real_escape_string( $dropping ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
+			$query  = "UPDATE `droppingodds` SET `tips`='" . mysqli_real_escape_string($mysqli_link,  $dropping ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
 		}
 		
 		// update RSS feed
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to update dropping daily in db - MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to update dropping daily in db - MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -874,10 +874,10 @@
 		else
 			$query  = "SELECT `id` FROM `feeds` WHERE `name`='" . $name . "' AND `countryID` IS NULL";
 			
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to query feeds from db: " . $query . " MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -889,7 +889,7 @@
 			mysqli_free_result( $result );
 			
 			// insert RSS feed
-			$query  = "INSERT INTO `feeds` (`name`, `countryID`, `value`, `lastUpdate`, `lastQuery`) VALUES('" . mysql_real_escape_string( $name ) . "', " . $countryID . ", '', '" . $date . "', '" . $date . "')";
+			$query  = "INSERT INTO `feeds` (`name`, `countryID`, `value`, `lastUpdate`, `lastQuery`) VALUES('" . mysqli_real_escape_string($mysqli_link,  $name ) . "', " . $countryID . ", '', '" . $date . "', '" . $date . "')";
 		}
 		else
 		{
@@ -901,10 +901,10 @@
 		}
 		
 		// update RSS feed
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
-			logError( "Failed to update " . $name . " RSS feed in db - MySQL error no: " . mysql_errno( $db ) . " MySQL error: " . mysql_error( $db ) );
+			logError( "Failed to update " . $name . " RSS feed in db - MySQL error no: " . mysqli_errno( $db ) . " MySQL error: " . mysqli_error( $db ) );
 			return false;
 		}
 		
@@ -1495,7 +1495,7 @@
 		global $livescoreFeedPause;
 		
 		// close db
-		@mysql_close( $db );
+		@mysqli_close( $db );
 		
 		// loop
 		while(1)
@@ -1518,7 +1518,7 @@
 				dbUpdateFeedLastQuery( "livescore", 0 );			
 				logError( "Failed to load livescore RSS feed" );				
 				
-				@mysql_close( $db );				
+				@mysqli_close( $db );				
 				sleep( $livescoreFeedPause + 1 );
 				continue;
 			}
@@ -1552,7 +1552,7 @@
 				dbUpdateFeedLastQuery( "livescore", 0 );			
 				logError( "Failed to update livescore RSS feed in db" );
 				
-				@mysql_close( $db );
+				@mysqli_close( $db );
 				sleep( $livescoreFeedPause + 1 );
 				continue;
 			}
@@ -1561,7 +1561,7 @@
 			parseMatchStatus( $rss );
 			
 			// close db
-			@mysql_close( $db );
+			@mysqli_close( $db );
 			
 			// sleep
 			sleep( rand( $livescoreFeedPause - 7, $livescoreFeedPause + 7 ) );	
@@ -1583,7 +1583,7 @@
 		
 		// get countries
 		$query  = "SELECT * FROM `countries` ORDER BY RAND()";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
 			logError( "Failed to query countries from db: " . $query );
@@ -1603,7 +1603,7 @@
 		// fetch country feed
 		while( $country = mysqli_fetch_array( $result ) )
 		{
-			@mysql_close( $db );	
+			@mysqli_close( $db );	
 			
 			// connect to db
 			$db = dbConnect();
@@ -1619,7 +1619,7 @@
 			
 			$url = str_replace( "<COUNTRY>", $country["feed_name"], $fixturesFeedRss );
 			
-			@mysql_close( $db );	
+			@mysqli_close( $db );	
 		
 			// load page
 			$rss = loadPage( $url );
@@ -1687,7 +1687,7 @@
 		
 		// get countries
 		$query  = "SELECT * FROM `countries` ORDER BY `name` ASC";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
 			logError( "Failed to query countries from db: " . $query );
@@ -1719,7 +1719,7 @@
 				
 			$url = str_replace( "<COUNTRY>", $country["feed_name"], $resultsFeedRss );
 		
-			@mysql_close( $db );	
+			@mysqli_close( $db );	
 		
 			// load page
 			$rss = loadPage( $url );
@@ -1781,7 +1781,7 @@
 		
 		// get countries
 		$query  = "SELECT * FROM `countries` ORDER BY `name` ASC";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
 			logError( "Failed to query countries from db: " . $query );
@@ -1808,7 +1808,7 @@
 				
 			$url = str_replace( "<COUNTRY>", $country["feed_name"], $standingsFeedRss );
 		
-			@mysql_close( $db );	
+			@mysqli_close( $db );	
 		
 			// load page
 			$rss = loadPage( $url );
@@ -1866,7 +1866,7 @@
 		
 		// get countries
 		$query  = "SELECT * FROM `countries` ORDER BY `name` ASC";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
 			logError( "Failed to query countries from db: " . $query );
@@ -1890,7 +1890,7 @@
 				
 			$url = str_replace( "<COUNTRY>", $country["feed_name"], $scorersFeedRss );
 		
-			@mysql_close( $db );		
+			@mysqli_close( $db );		
 			
 			// load page
 			$rss = loadPage( $url );
@@ -2964,7 +2964,7 @@
 		
 		// bookers
 		$query = "SELECT A.`name`, A.`affiliateLink` FROM `bookers` A WHERE A.`affiliateLink`<>'' ORDER BY A.`id` ASC";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( is_bool( $result ) )
 		{
 			// logging
@@ -2980,7 +2980,7 @@
 		
 		// get countries
 		$query  = "SELECT * FROM `countries` ORDER BY `name` ASC";
-		$result = @mysql_query( $query, $db );
+		$result = @mysqli_query($db,  $query);
 		if( false == $result )
 		{
 			logError( "Failed to query countries from db: " . $query );
@@ -3017,7 +3017,7 @@
 				
 			$url = str_replace( "<COUNTRY>", $country["feed_name"], $oddsFeedRss );
 		
-			@mysql_close( $db );	
+			@mysqli_close( $db );	
 
 			// pause
 			sleep( $oddsFeedPause );			
@@ -3238,7 +3238,7 @@
 			cacheOddsFeed();
 			
 		// close db
-		@mysql_close( $db );		
+		@mysqli_close( $db );		
 		
 		// logging
 		logApp( "Cache sync completed" );		
