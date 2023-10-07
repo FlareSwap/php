@@ -22,7 +22,7 @@
 		global $dbName;
 		
 		// connect to db
-		$dblink = @mysql_connect($dbHost, $dbUsername, $dbPassword, true);
+		$dblink = @mysqli_connect($dbHost, $dbUsername, $dbPassword);
 		if( false == $dblink ) 
 			return false;
 			
