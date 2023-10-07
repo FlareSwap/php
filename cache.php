@@ -70,14 +70,14 @@
 		}
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{		
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return false;
 		}
 		
-		$row = mysql_fetch_array( $result );
-		mysql_free_result( $result );
+		$row = mysqli_fetch_array( $result );
+		mysqli_free_result( $result );
 		
 		// inside pause period
 		if( ( time() - strtotime( $row["lastQuery"] ) ) <= $pause )
@@ -101,14 +101,14 @@
 			return false;
 		}
 		
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return false;
 		}
 		
-		$row = mysql_fetch_array( $result );
-		mysql_free_result( $result );
+		$row = mysqli_fetch_array( $result );
+		mysqli_free_result( $result );
 		
 		return $row;	
 	}
@@ -128,14 +128,14 @@
 			return false;
 		}
 		
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return false;
 		}
 		
-		$row = mysql_fetch_array( $result );
-		mysql_free_result( $result );
+		$row = mysqli_fetch_array( $result );
+		mysqli_free_result( $result );
 		
 		return $row;	
 	}
@@ -155,14 +155,14 @@
 			return false;
 		}
 		
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return false;
 		}
 		
-		$row = mysql_fetch_array( $result );
-		mysql_free_result( $result );
+		$row = mysqli_fetch_array( $result );
+		mysqli_free_result( $result );
 		
 		return $row;	
 	}
@@ -200,13 +200,13 @@
 			return false;
 		}
 		
-		while( $feed = mysql_fetch_array( $result ) )
+		while( $feed = mysqli_fetch_array( $result ) )
 		{
 			if( !dbInsertFeedDaily( $name, $feed["countryID"], $feed["value"], $feed["curDay"] ) )
 				logError( "Failed to insert past feed in db" );
 		}
 		
-		mysql_free_result( $result );
+		mysqli_free_result( $result );
 		
 		return true;
 	}
@@ -235,9 +235,9 @@
 		$roTime 		= date( "H:i", $timeConvert );		
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `matchstatus` (`leagueID`, `leagueName`, `matchID`, `team1`, `team2`, `date`, `time`, `ro_date`, `ro_time`, `status`, `score1`, `score2`, `scoreHT`, `goals1`, `cards1`, `goals2`, `cards2`, `match_time`, `lastUpdate`) VALUES('" . 
@@ -270,8 +270,8 @@
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `matchstatus` SET `date`='" . mysql_real_escape_string( $matchDate ) . 
@@ -326,9 +326,9 @@
 		$roTime 		= date( "H:i", $timeConvert );	
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `oddstatus` (`leagueID`, `leagueName`, `matchID`, `bookerName`, `team1`, `team2`, `date`, `time`, `ro_date`, `ro_time`, `odds1`, `odds2`, `oddsX`, `lastUpdate`) VALUES('" . 
@@ -359,8 +359,8 @@
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `oddstatus` SET `date`='" . mysql_real_escape_string( $matchDate ) . 
@@ -419,9 +419,9 @@
 		$roTime 		= date( "H:i", $timeConvert );
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `oddstatus2` (`leagueID`, `leagueName`, `matchID`, `bookerName`, `team1`, `team2`, `date`, `time`, `ro_date`, `ro_time`, `odds1`, `odds2`, `oddsX`, `lastUpdate`) VALUES('" . 
@@ -452,8 +452,8 @@
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `oddstatus2` SET `date`='" . mysql_real_escape_string( $matchDate ) . 
@@ -504,9 +504,9 @@
 		$date = date( "Y-m-d H:i:s", time() );
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `leagues` (`countryID`, `name`, `is_cup`, `feed_id`, `feed_sub_id`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysql_real_escape_string( $leagueName ) . "', " . $leagueCup . ", '" . mysql_real_escape_string( $leagueId ) . "', '" . mysql_real_escape_string( $leagueSubId ) . "', '" . $date . "')";
@@ -519,8 +519,8 @@
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// name
 			if( $nameIdx == 1 && strtolower( $row["name"] ) != strtolower( $leagueName ) )
@@ -624,17 +624,17 @@
 		$date = date( "Y-m-d H:i:s", time() );
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `feeds` (`name`, `countryID`, `value`, `tips`, `lastUpdate`, `lastQuery`) VALUES('" . mysql_real_escape_string( $name ) . "', " . $countryID . ", '" . mysql_real_escape_string( $feed ) . ", '" . mysql_real_escape_string( $tips ) . "', '" . $date . "', '" . $date . "')";
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `feeds` SET `value`='" . mysql_real_escape_string( $feed ) . "', `tips`='" . mysql_real_escape_string( $tips ) . "', `lastUpdate`='" . $date . "', `lastQuery`='" . $date . "' WHERE `id`=" . $row["id"];
@@ -676,17 +676,17 @@
 		$date = date( "Y-m-d H:i:s", time() );
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `feeddaily` (`name`, `countryID`, `value`, `lastUpdate`, `lastQuery`) VALUES('" . mysql_real_escape_string( $name ) . "', " . $countryID . ", '" . mysql_real_escape_string( $feed ) . "', '" . $curDay . "', '" . $date . "')";
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `feeddaily` SET `value`='" . mysql_real_escape_string( $feed ) . "', `lastUpdate`='" . $curDay . "', `lastQuery`='" . $date . "' WHERE `id`=" . $row["id"];
@@ -728,17 +728,17 @@
 		$date = date( "Y-m-d H:i:s", time() );
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `tipsdaily` (`countryID`, `tips`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysql_real_escape_string( $tips ) . "', '" . $curDay . "')";
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `tipsdaily` SET `tips`='" . mysql_real_escape_string( $tips ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
@@ -780,17 +780,17 @@
 		$date = date( "Y-m-d H:i:s", time() );
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `predictionsdaily` (`countryID`, `predictions`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysql_real_escape_string( $predictions ) . "', '" . $curDay . "')";
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `predictionsdaily` SET `predictions`='" . mysql_real_escape_string( $predictions ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
@@ -832,17 +832,17 @@
 		$date = date( "Y-m-d H:i:s", time() );
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `droppingodds` (`countryID`, `tips`, `lastUpdate`) VALUES(" . $countryID . ", '" . mysql_real_escape_string( $dropping ) . "', '" . $curDay . "')";
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `droppingodds` SET `tips`='" . mysql_real_escape_string( $dropping ) . "', `lastUpdate`='" . $curDay . "' WHERE `id`=" . $row["id"];
@@ -884,17 +884,17 @@
 		$date = date( "Y-m-d H:i:s", time() );
 		
 		// no entry
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			
 			// insert RSS feed
 			$query  = "INSERT INTO `feeds` (`name`, `countryID`, `value`, `lastUpdate`, `lastQuery`) VALUES('" . mysql_real_escape_string( $name ) . "', " . $countryID . ", '', '" . $date . "', '" . $date . "')";
 		}
 		else
 		{
-			$row = mysql_fetch_array( $result );
-			mysql_free_result( $result );
+			$row = mysqli_fetch_array( $result );
+			mysqli_free_result( $result );
 			
 			// update RSS feed
 			$query  = "UPDATE `feeds` SET `lastQuery`='" . $date . "' WHERE `id`=" . $row["id"];
@@ -1051,7 +1051,7 @@
 		$dayList = array();
 		
 		// traverse fixtures
-		while( $fixture = mysql_fetch_array( $fixtures ) )
+		while( $fixture = mysqli_fetch_array( $fixtures ) )
 		{
 			$leagues = parseFeed( $fixture["value"] );
 			if( is_bool( $leagues ) )
@@ -1092,7 +1092,7 @@
 		}
 		
 		// free result
-		mysql_free_result( $fixtures );
+		mysqli_free_result( $fixtures );
 
 		// save livescore
 		foreach( $dayList as $date => $league )
@@ -1590,18 +1590,18 @@
 			return false;
 		}
 		
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
 			// logging
 			logApp( "No country available for fixtures RSS feed!" );			
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return true;
 		}
 		
 		$isUpdated = false;	
 		
 		// fetch country feed
-		while( $country = mysql_fetch_array( $result ) )
+		while( $country = mysqli_fetch_array( $result ) )
 		{
 			@mysql_close( $db );	
 			
@@ -1661,7 +1661,7 @@
 			$isUpdated = true;
 		}
 		
-		mysql_free_result( $result );
+		mysqli_free_result( $result );
 		
 		// verify if updated
 		if( $isUpdated )
@@ -1694,11 +1694,11 @@
 			return false;
 		}
 		
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
 			// logging
 			logApp( "No country available for results RSS feed!" );			
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return true;
 		}
 		
@@ -1711,7 +1711,7 @@
 			$saveFeed = true;
 		
 		// fetch country feed
-		while( $country = mysql_fetch_array( $result ) )
+		while( $country = mysqli_fetch_array( $result ) )
 		{		
 			// is feed updated
 			if( dbIsFeedUpdated( "results", $country["id"], $resultsFeedPause ) )
@@ -1763,7 +1763,7 @@
 			}		
 		}
 		
-		mysql_free_result( $result );
+		mysqli_free_result( $result );
 		
 		// logging
 		logApp( "Results RSS feed updated!" );
@@ -1788,16 +1788,16 @@
 			return false;
 		}
 		
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
 			// logging
 			logApp( "No country available for standings RSS feed!" );			
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return true;
 		}	
 		
 		// fetch country feed
-		while( $country = mysql_fetch_array( $result ) )
+		while( $country = mysqli_fetch_array( $result ) )
 		{
 			// is feed updated
 			if( dbIsFeedUpdated( "standings", $country["id"], $standingsFeedPause ) )
@@ -1848,7 +1848,7 @@
 			}		
 		}
 		
-		mysql_free_result( $result );
+		mysqli_free_result( $result );
 		
 		// logging
 		logApp( "Standings RSS feed updated!" );
@@ -1873,16 +1873,16 @@
 			return false;
 		}
 		
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
 			// logging
 			logApp( "No country available for scorers RSS feed!" );			
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return true;
 		}
 		
 		// fetch country feed
-		while( $country = mysql_fetch_array( $result ) )
+		while( $country = mysqli_fetch_array( $result ) )
 		{
 			// is feed updated
 			if( dbIsFeedUpdated( "scorers", $country["id"], $scorersFeedPause ) )
@@ -1930,7 +1930,7 @@
 			}			
 		}
 		
-		mysql_free_result( $result );
+		mysqli_free_result( $result );
 		
 		// logging
 		logApp( "Scorers RSS feed updated!" );
@@ -2973,10 +2973,10 @@
 		}
 		
 		$bookers = array();
-		while( $row = mysql_fetch_array( $result ) )
+		while( $row = mysqli_fetch_array( $result ) )
 			array_push( $bookers, $row );
 			
-		mysql_free_result( $result );
+		mysqli_free_result( $result );
 		
 		// get countries
 		$query  = "SELECT * FROM `countries` ORDER BY `name` ASC";
@@ -2987,11 +2987,11 @@
 			return false;
 		}
 		
-		if( mysql_num_rows( $result ) <= 0 )
+		if( mysqli_num_rows( $result ) <= 0 )
 		{
 			// logging
 			logApp( "No country available for odds RSS feed!" );			
-			mysql_free_result( $result );
+			mysqli_free_result( $result );
 			return true;
 		}
 		
@@ -3006,7 +3006,7 @@
 		$saveFeed = true;
 		
 		// fetch country feed
-		while( $country = mysql_fetch_array( $result ) )
+		while( $country = mysqli_fetch_array( $result ) )
 		{
 			if( $debugEnabled )
 				echo $country["feed_name"] . "\n";
@@ -3146,7 +3146,7 @@
 			}				
 		}
 		
-		mysql_free_result( $result );
+		mysqli_free_result( $result );
 		
 		// logging
 		logApp( "Odds RSS feed updated!" );
